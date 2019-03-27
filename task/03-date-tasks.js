@@ -22,7 +22,7 @@
  *    'Sun, 17 May 1998 03:00:00 GMT+01' => Date()
  */
 function parseDataFromRfc2822(value) {
-   throw new Error('Not implemented');
+   return Date.parse(value);
 }
 
 /**
@@ -37,7 +37,8 @@ function parseDataFromRfc2822(value) {
  *    '2016-01-19T08:07:37Z' => Date()
  */
 function parseDataFromIso8601(value) {
-   throw new Error('Not implemented');
+   var date = new Date(value).toISOString();
+   return Date.parse(date);
 }
 
 
@@ -56,7 +57,16 @@ function parseDataFromIso8601(value) {
  *    Date(2015,1,1)    => false
  */
 function isLeapYear(date) {
-   throw new Error('Not implemented');
+    var year = date.getFullYear();
+    var res;
+    if (year % 4 != 0) 
+      {res = false} 
+    else if (year % 100 != 0) 
+      { res = true} 
+      else if (year % 400 != 0 ) 
+          {res = false} 
+        else {res = true}
+    return res;
 }
 
 
@@ -76,7 +86,35 @@ function isLeapYear(date) {
  *    Date(2000,1,1,10,0,0),  Date(2000,1,1,15,20,10,453)   => "05:20:10.453"
  */
 function timeSpanToString(startDate, endDate) {
-   throw new Error('Not implemented');
+   var temp = (endDate.getHours() - startDate.getHours()).toString();
+   if (temp.length == 1)
+   {
+   	temp = '0'.concat(temp);
+   }
+   var result = temp.concat(':');
+   temp = (endDate.getMinutes() - startDate.getMinutes()).toString();
+   if (temp.length == 1)
+   {
+   	temp = '0'.concat(temp);
+   }
+   result = result.concat(temp);
+   result = result.concat(":");
+   temp = (endDate.getSeconds() - startDate.getSeconds()).toString();
+   if (temp.length == 1)
+   {
+   	temp = '0'.concat(temp);
+   }
+   result = result.concat(temp);
+   result = result.concat(".");
+   temp = (endDate.getMilliseconds() - startDate.getMilliseconds()).toString();
+   if (temp == 0)
+   {
+   		result = result.concat('000');
+   }
+   else{
+   		result = result.concat(temp);
+   }
+   return result
 }
 
 
@@ -94,7 +132,13 @@ function timeSpanToString(startDate, endDate) {
  *    Date.UTC(2016,3,5,21, 0) => Math.PI/2
  */
 function angleBetweenClockHands(date) {
-    throw new Error('Not implemented');
+    var result = Math.abs(Math.PI/360 *(60 * (date.getUTCHours() % 12) - 11*date.getUTCMinutes()));
+
+    if (result > Math.PI) {
+    	result =  2*Math.PI - result;
+    }
+    
+    return result
 }
 
 

@@ -88,7 +88,54 @@ function* expandBraces(str) {
  *
  */
 function getZigZagMatrix(n) {
-    throw new Error('Not implemented');
+    var newArr = new Array(n).fill(null); 
+    var myArr = newArr.map(function(item,i) { 
+        item = new Array(n).fill(0); 
+        return item; 
+    });
+    var kol =0;
+    var el = 0;
+    var flag = false;
+    while (kol<n){
+        if (flag){
+            for (var q =0; q<=kol;q++){
+                var kol1 = 0;
+                myArr[kol1+q][kol-q] = el;
+                el++;
+            }
+            
+        }
+        else
+        {
+            for (var q =kol; q>=0;q--){
+                var kol1 = 0;
+                myArr[kol1+q][kol-q] = el;
+                el++;
+            }
+        }
+        kol++;
+        flag= !flag;
+    }
+    while (kol<n*2)
+    {
+        if (flag){
+            for (var q=n-1; q>=kol%n+1;q--){
+                var kol1 = kol%n;
+                myArr[kol-q][q]=el;
+                el++;
+            }
+        }
+        else{
+            for (var q=kol%n+1; q<=n-1;q++){
+                var kol1 = kol%n;
+                myArr[kol-q][q]=el;
+                el++;
+            }
+        }
+        flag= !flag;
+        kol++;
+    }
+    return myArr
 }
 
 
@@ -137,7 +184,34 @@ function canDominoesMakeRow(dominoes) {
  * [ 1, 2, 4, 5]          => '1,2,4,5'
  */
 function extractRanges(nums) {
-    throw new Error('Not implemented');
+    var i = 0; var rez = '';  var j = 0;var flag = true;
+    while (i < nums.length)
+    {
+        if (nums[i]+1==nums[i+1]){
+            if (j==0){
+                rez =  rez.concat(nums[i].toString());
+                flag = true;
+            }        
+        j++;
+        }
+        else{
+            if (j>1){
+                rez = rez.concat('-');
+                rez = rez.concat(nums[i].toString());
+                if (i+1<nums.length){rez = rez.concat(','); flag=false;}
+            }
+            else{
+                if ((i>0)&&(flag)) {rez = rez.concat(',');}
+                rez = rez.concat(nums[i].toString());
+                flag=true;
+                if (i+1<nums.length){rez = rez.concat(',');}
+                
+            }    
+            j = 0;
+        }
+        i++;
+    }
+    return rez
 }
 
 module.exports = {

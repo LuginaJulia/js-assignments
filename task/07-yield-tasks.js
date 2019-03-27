@@ -46,8 +46,15 @@ function* get99BottlesOfBeer() {
  * @return {Iterable.<number>}
  *
  */
-function* getFibonacciSequence() {
-    throw new Error('Not implemented');
+function* getFibonacciSequence() { 
+    var fn1 = 0;
+    var fn2 = 1;
+    while (true) {  
+        var current = fn1;
+        fn1 = fn2;
+        fn2 = current + fn1;
+        var reset = yield current;
+    }
 }
 
 
@@ -82,7 +89,19 @@ function* getFibonacciSequence() {
  *
  */
 function* depthTraversalTree(root) {
-    throw new Error('Not implemented');
+    const stack = [];
+    stack.push(root);
+    while (stack.length) {
+        let curr = stack.pop();
+        yield curr;
+
+
+        if (curr.children){
+            let children = curr.children;
+            for (let i = children.length -1; i>=0; i--)
+                stack.push(children[i]);
+        }
+    }
 }
 
 
